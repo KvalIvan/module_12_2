@@ -15,7 +15,7 @@ class Runner:
         self.distance += self.speed
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
     def __eq__(self, other):
         if isinstance(other, str):
@@ -36,14 +36,14 @@ class Tournament:
             for participant in self.participants:
                 participant.run()
                 if participant.distance >= self.full_distance:
-                    finishers[place] = participant
+                    finishers[place] = participant.name
                     place += 1
                     self.participants.remove(participant)
 
         return finishers
 
 
-class TournamentTest(TestCase):
+class TournamentTest(TestCase, Runner):
     all_results = {}
 
     @classmethod
@@ -57,17 +57,17 @@ class TournamentTest(TestCase):
 
     def test1(self):
         runners = Tournament(90, self.runner_1, self.runner_3).start()
-        self.all_results[1] = runners
+        TournamentTest.all_results[1] = runners
         self.assertTrue(runners.get(max(runners)) == 'Ник')
 
     def test2(self):
         runners = Tournament(90, self.runner_2, self.runner_3).start()
-        self.all_results[2] = runners
+        TournamentTest.all_results[2] = runners
         self.assertTrue(runners.get(max(runners)) == 'Ник')
 
     def test3(self):
         runners = Tournament(90, self.runner_1, self.runner_2, self.runner_3).start()
-        self.all_results[3] = runners
+        TournamentTest.all_results[3] = runners
         self.assertTrue(runners.get(max(runners)) == 'Ник')
 
     @classmethod
